@@ -109,8 +109,6 @@ async function setup () {
 
     branch = newBranch
 
-    await onExit(stopSpring())
-
     console.log('\n')
 
     setTimeout(() => {
@@ -158,8 +156,6 @@ async function setup () {
   console.log(`  Version ${VERSION} - https://github.com/calvinwalzel/binks`)
   console.log('')
 
-  await onExit(stopSpring())
-
   console.log('  👀  ', `Watching for file changes in ${MONITORS.map(x => x.path).join(' & ')}`)
 
   console.log('\n')
@@ -177,7 +173,6 @@ function buildCommands (files, relPath) {
     if (file.endsWith('.feature')) {
       args = [
         'exec',
-        'spring',
         'cucumber',
         toTotalPath(file, relPath),
         '--color',
@@ -188,7 +183,6 @@ function buildCommands (files, relPath) {
     if (file.endsWith('_spec.rb')) {
       args = [
         'exec',
-        'spring',
         'rspec',
         toTotalPath(file, relPath)
       ]
@@ -289,12 +283,6 @@ function onExit (childProcess) {
       reject(err)
     })
   })
-}
-
-function stopSpring () {
-  console.log('  🧽  ', 'Stopping spring...')
-
-  return exec('bundle exec spring stop')
 }
 
 function handleTerminalCommand (command) {
